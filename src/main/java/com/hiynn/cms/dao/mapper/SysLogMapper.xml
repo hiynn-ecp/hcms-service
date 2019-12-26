@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hiynn.cms.dao.SysLogMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hiynn.cms.entity.SysLogEntity" id="BaseResultMap">
+        <result column="id" property="id"/>
+        <result column="user_account" property="userAccount"/>
+        <result column="user_name" property="userName"/>
+        <result column="product" property="product"/>
+        <result column="operation" property="operation"/>
+        <result column="method" property="method"/>
+        <result column="params" property="params"/>
+        <result column="ip" property="ip"/>
+        <result column="attribution" property="attribution"/>
+        <result column="create_time" property="createTime"/>
+        <result column="creator_id" property="creatorId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_account,user_name,product,operation,method,params,ip,attribution,create_time,creator_id    </sql>
+
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_log where id = #{value}
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_log order by create_time desc
+    </select>
+
+    <select id="selectForList" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sys_log where 1 =1
+        <if test="searchKey != null and searchKey!=''">
+            and(
+            locate(#{searchKey},user_account)>0 or
+            locate(#{searchKey},user_name)>0 or
+            locate(#{searchKey},product)>0 or
+            locate(#{searchKey},operation)>0
+            )
+        </if>
+        <if test="startTime != null and endTime != null ">
+            and(
+            create_time <![CDATA[>=]]> #{startTime}
+            and
+            create_time <![CDATA[<=]]> #{endTime}
+            )
+        </if>
+        order by create_time desc
+    </select>
+
+    <select id="countTotal" resultType="int">
+        select count(*)
+        from sys_log
+    </select>
+
+    <insert id="insert" parameterType="com.hiynn.cms.entity.SysLogEntity">
+        insert into sys_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">id ,</if>
+            <if test="userAccount != null  and userAccount != '' ">user_account ,</if>
+            <if test="userName != null  and userName != '' ">user_name ,</if>
+            <if test="product != null  and product != '' ">product ,</if>
+            <if test="operation != null  and operation != '' ">operation ,</if>
+            <if test="method != null  and method != '' ">method ,</if>
+            <if test="params != null  and params != '' ">params ,</if>
+            <if test="ip != null  and ip != '' ">ip ,</if>
+            <if test="attribution != null  and attribution != '' ">attribution ,</if>
+            <if test="createTime != null  ">create_time ,</if>
+            <if test="creatorId != null  and creatorId != '' ">creator_id</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">#{id
+                   },
+            </if>
+            <if test="userAccount != null  and userAccount != '' ">#{userAccount
+                   },
+            </if>
+            <if test="userName != null  and userName != '' ">#{userName
+                   },
+            </if>
+            <if test="product != null  and product != '' ">#{product
+                   },
+            </if>
+            <if test="operation != null  and operation != '' ">#{operation
+                   },
+            </if>
+            <if test="method != null  and method != '' ">#{method
+                   },
+            </if>
+            <if test="params != null  and params != '' ">#{params
+                   },
+            </if>
+            <if test="ip != null  and ip != '' ">#{ip
+                   },
+            </if>
+            <if test="attribution != null  and attribution != '' ">#{attribution
+                   },
+            </if>
+            <if test="createTime != null  ">#{createTime
+                   },
+            </if>
+            <if test="creatorId != null  and creatorId != '' ">#{creatorId
+                   }
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.hiynn.cms.entity.SysLogEntity">
+        update sys_log
+        <set>
+            <if test="userAccount != null  and userAccount != ''  ">user_account =
+                #{userAccount} ,
+            </if>
+            <if test="userName != null  and userName != ''  ">user_name =
+                #{userName} ,
+            </if>
+            <if test="product != null  and product != ''  ">product =
+                #{product} ,
+            </if>
+            <if test="operation != null  and operation != ''  ">operation =
+                #{operation} ,
+            </if>
+            <if test="method != null  and method != ''  ">method =
+                #{method} ,
+            </if>
+            <if test="params != null  and params != ''  ">params =
+                #{params} ,
+            </if>
+            <if test="ip != null  and ip != ''  ">ip =
+                #{ip} ,
+            </if>
+            <if test="attribution != null  and attribution != ''  ">attribution =
+                #{attribution} ,
+            </if>
+            <if test="createTime != null  ">create_time =
+                #{createTime} ,
+            </if>
+            <if test="creatorId != null  and creatorId != ''  ">creator_id =
+                #{creatorId}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from sys_log
+        where id = #{value}
+    </delete>
+
+
+</mapper>

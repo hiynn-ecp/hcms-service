@@ -1,0 +1,34 @@
+package ${package}.entity;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.util.Date;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+
+
+/**
+ * 描述: ${comments}
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel(value = "${comments}")
+@Data
+public class ${className}Entity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    #foreach ($column in $columns)
+@ApiModelProperty(value = "${column.comments},$column.attrType")
+    private $column.attrType $column.attrname;
+    #end
+
+}

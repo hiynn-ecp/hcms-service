@@ -1,0 +1,16 @@
+package ${package}.dao;
+
+import org.apache.ibatis.annotations.Mapper;
+import ${package}.entity.${className}Entity;
+import com.hiynn.component.common.core.BaseMapper;
+
+/**
+ * 描述: ${comments}
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+@Mapper
+public interface ${className}Mapper extends BaseMapper<${className}Entity> {
+
+}

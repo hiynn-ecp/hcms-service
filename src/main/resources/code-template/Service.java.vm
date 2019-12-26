@@ -1,0 +1,69 @@
+package ${package}.service;
+
+import ${package}.entity.${className}Entity;
+import com.github.pagehelper.PageInfo;
+
+/**
+ * 描述: ${comments}
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+public interface ${className}Service {
+
+    /**
+     * 描述: ID查询
+     * @author ${author}
+     * @date ${date}
+     * @param ${pk.attrname}
+     * @return ${className}Entity
+     */
+    ${className}Entity select(${pk.attrType} ${pk.attrname});
+
+    /**
+     * 描述: 分页查询
+     * @author ${author}
+     * @date ${date}
+     * @param page
+     * @param pageSize
+     * @return PageInfo
+     */
+    PageInfo<?> listPage(String page, String pageSize);
+
+    /**
+     * 描述: 查询总数
+     * @author ${author}
+     * @date ${date}
+     * @param
+     * @return int
+     */
+    int countTotal();
+
+    /**
+     * 描述: 保存
+     * @author ${author}
+     * @date ${date}
+     * @param ${classname}
+     * @return int
+     */
+    int insert(${className}Entity ${classname});
+
+    /**
+     * 描述: 更新
+     * @author ${author}
+     * @date ${date}
+     * @param ${classname}
+     * @return int
+     */
+    int update(${className}Entity ${classname});
+
+    /**
+     * 描述: ID删除
+     * @author ${author}
+     * @date ${date}
+     * @param ${pk.attrname}
+     * @return int
+     */
+    int delete(${pk.attrType} ${pk.attrname});
+
+}

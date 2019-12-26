@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hiynn.cms.dao.SysMenuMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hiynn.cms.entity.SysMenuEntity" id="BaseResultMap">
+        <result property="id" column="id"/>
+        <result property="menuId" column="menu_id"/>
+        <result property="name" column="name"/>
+        <result property="uri" column="uri"/>
+        <result property="perms" column="perms"/>
+        <result property="type" column="type"/>
+        <result property="typeName" column="type_name"/>
+        <result property="ordered" column="ordered"/>
+        <result property="dataStatus" column="data_status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="editTime" column="edit_time"/>
+        <result property="editorId" column="editor_id"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        menu_id,
+        `name`,
+        uri,
+        perms,
+        type,
+        ordered,
+        data_status,
+        create_time,
+        creator_id,
+        edit_time,
+        editor_id
+    </sql>
+
+    <select id="select" resultMap="BaseResultMap">
+        select t1.id,
+               t1.menu_id,
+               (select `name` from sys_menu t2 where t2.id = t1.menu_id)                   as menu_name,
+               t1.`name`,
+               t1.uri,
+               t1.perms,
+               t1.type,
+               (select `value` from sys_enum where type = 'menu_type' and `key` = t1.type) as type_name,
+               t1.ordered,
+               t1.data_status,
+               t1.create_time,
+               t1.creator_id,
+               t1.edit_time,
+               t1.editor_id
+        from sys_menu t1
+        where t1.id = #{value}
+          and t1.data_status = 1
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        select t1.menu_id,
+               (select `name` from sys_menu t2 where t2.id = t1.menu_id)                   as menu_name,
+               (select `value` from sys_enum where type = 'menu_type' and `key` = t1.type) as type_name,
+               t1.`name`,
+               t1.uri,
+               t1.perms,
+               t1.type,
+               t1.ordered,
+               t1.data_status,
+               t1.create_time,
+               t1.creator_id,
+               t1.edit_time,
+               t1.editor_id
+        from sys_menu t1
+        where t1.data_status = 1
+        order by t1.ordered
+    </select>
+
+    <select id="countTotal" resultType="int">
+        select count(*)
+        from sys_menu
+        where data_status = 1
+    </select>
+
+    <!--根据用户id 获取菜单产品-->
+    <select id="listByUserId" resultType="com.hiynn.cms.entity.SysMenuEntity">
+        select sm.id
+             , sm.menu_id
+             , sm.name
+             , (select `name` from sys_menu where id = sm.menu_id)                         as menu_name
+             , (select `value` from sys_enum where type = 'menu_type' and `key` = sm.type) as type_name
+             , sm.uri
+             , sm.perms
+             , sm.type
+             , sm.ordered
+             , sm.data_status
+             , sm.create_time
+             , sm.creator_id
+             , sm.edit_time
+             , sm.editor_id
+        from sys_user_role_r surr
+                 left join sys_role sr on surr.role_id = sr.id
+                 left join sys_role_menu_r srmr on sr.id = srmr.role_id
+                 left join sys_menu sm on srmr.menu_id = sm.id
+        where surr.user_id = #{userId}
+          and surr.data_status = 1
+          and sr.data_status = 1
+          and srmr.data_status = 1
+          and sm.data_status = 1
+        order by sm.ordered
+    </select>
+
+    <select id="listPermsByUserId" resultType="com.hiynn.cms.entity.SysMenuEntity">
+        select sm.id
+             , sm.menu_id
+             , sm.name
+             , sm.uri
+             , sm.perms
+             , sm.type
+             , sm.ordered
+             , sm.data_status
+             , sm.create_time
+             , sm.creator_id
+             , sm.edit_time
+             , sm.editor_id
+        from sys_user_role_r surr
+                 left join sys_role sr on surr.role_id = sr.id
+                 left join sys_role_menu_r srmr on sr.id = srmr.role_id
+                 left join sys_menu sm on srmr.menu_id = sm.id
+        where surr.user_id = #{userId}
+          and (sm.type = 3 or sm.type = 4)
+          and surr.data_status = 1
+          and sr.data_status = 1
+          and srmr.data_status = 1
+          and sm.data_status = 1
+        order by sm.ordered
+    </select>
+
+    <select id="listTree" resultType="com.hiynn.cms.entity.SysMenuEntity">
+        select sm.id
+             , sm.menu_id
+             , sm.name
+             , (select `name` from sys_menu where id = sm.menu_id)                         as menu_name
+             , (select `value` from sys_enum where type = 'menu_type' and `key` = sm.type) as type_name
+             , sm.uri
+             , sm.perms
+             , sm.type
+             , sm.ordered
+             , sm.data_status
+             , sm.create_time
+             , sm.creator_id
+             , sm.edit_time
+             , sm.editor_id
+        from sys_menu sm
+        where sm.data_status = 1
+        order by sm.ordered
+    </select>
+
+    <select id="listTreeByRoleId" resultType="com.hiynn.cms.entity.SysMenuEntity">
+        select sm.id
+             , sm.menu_id
+             , sm.name
+             , (select `name` from sys_menu where id = sm.menu_id)                         as menu_name
+             , (select `value` from sys_enum where type = 'menu_type' and `key` = sm.type) as type_name
+             , sm.uri
+             , sm.perms
+             , sm.type
+             , sm.ordered
+             , sm.data_status
+             , sm.create_time
+             , sm.creator_id
+             , sm.edit_time
+             , sm.editor_id
+        from sys_role_menu_r srmr
+                 left join sys_menu sm on srmr.menu_id = sm.id
+        where srmr.role_id = #{roleId}
+          and srmr.data_status = 1
+          and sm.data_status = 1
+        order by sm.ordered
+    </select>
+
+    <insert id="insert" parameterType="com.hiynn.cms.entity.SysMenuEntity">
+        insert into sys_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">`id`,</if>
+            <if test="menuId != null and menuId != ''">`menu_id`,</if>
+            <if test="name != null and name != ''">`name`,</if>
+            <if test="uri != null and uri != ''">`uri`,</if>
+            <if test="perms != null and perms != ''">`perms`,</if>
+            <if test="type != null">`type`,</if>
+            <if test="ordered != null">`ordered`,</if>
+            <if test="createTime != null">`create_time`,</if>
+            <if test="creatorId != null and creatorId != ''">`creator_id`,</if>
+            <if test="editTime != null">`edit_time`,</if>
+            <if test="editorId != null and editorId != ''">`editor_id`,</if>
+            <if test="dataStatus != null">`data_status`</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id!='' ">#{id},</if>
+            <if test="menuId != null and menuId!='' ">#{menuId},</if>
+            <if test="name != null and name!='' ">#{name},</if>
+            <if test="uri != null and uri!='' ">#{uri},</if>
+            <if test="perms != null and perms!='' ">#{perms},</if>
+            <if test="type != null">#{type},</if>
+            <if test="ordered != null">#{ordered},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="creatorId != null and creatorId != ''">#{creatorId},</if>
+            <if test="editTime != null">#{editTime},</if>
+            <if test="editorId != null and editorId != ''">#{editorId},</if>
+            <if test="dataStatus != null">#{dataStatus}</if>
+        </trim>
+    </insert>
+
+    <!--清除角色的菜单-->
+    <delete id="deleteRoleMenu">
+        delete
+        from sys_role_menu_r
+        where role_id = #{roleId}
+    </delete>
+
+    <!--配置角色的菜单-->
+    <insert id="insertRoleMenu">
+        insert into sys_role_menu_r(id, role_id, menu_id, create_time)
+        values (#{id}, #{roleId}, #{menuId}, #{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.hiynn.cms.entity.SysMenuEntity">
+        update sys_menu
+        <set>
+            <if test="menuId != null">`menu_id` = #{menuId},</if>
+            <if test="name != null and name != '' ">`name` = #{name},</if>
+            <if test="uri != null">`uri` = #{uri},</if>
+            <if test="perms != null">`perms` = #{perms},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="ordered != null">`ordered` = #{ordered},</if>
+            <if test="createTime != null">`create_time`=#{createTime},</if>
+            <if test="creatorId != null and creatorId != ''">`creator_id`=#{creatorId},</if>
+            <if test="editTime != null">`edit_time`=#{editTime},</if>
+            <if test="editorId != null and editorId != ''">`editor_id`=#{editorId},</if>
+            <if test="dataStatus != null">`data_status`=#{dataStatus}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from sys_menu
+        where id = #{value}
+    </delete>
+
+
+</mapper>

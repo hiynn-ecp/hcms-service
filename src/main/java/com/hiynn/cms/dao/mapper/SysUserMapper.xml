@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hiynn.cms.dao.SysUserMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hiynn.cms.entity.SysUserEntity" id="BaseResultMap">
+        <result property="id" column="id"/>
+        <result property="account" column="account"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="userName" column="user_name"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="picture" column="picture"/>
+        <result property="createTime" column="create_time"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="editTime" column="edit_time"/>
+        <result property="editorId" column="editor_id"/>
+        <result property="dataStatus" column="data_status"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,account,password,salt,user_name,phone,email,picture,create_time,creator_id,edit_time,editor_id,data_status
+    </sql>
+
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user where id = #{value} and data_status = 1
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user where data_status = 1
+    </select>
+
+    <select id="countTotal" resultType="int">
+        select count(*)
+        from sys_user  where data_status = 1
+    </select>
+
+    <select id="selectByAccount" resultType="com.hiynn.cms.entity.SysUserEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user where account = #{account} and data_status = 1
+    </select>
+
+    <insert id="insert" parameterType="com.hiynn.cms.entity.SysUserEntity">
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">`id`,</if>
+            <if test="account != null and account != ''">`account`,</if>
+            <if test="password != null and password != ''">`password`,</if>
+            <if test="salt != null and salt != ''">`salt`,</if>
+            <if test="userName != null and userName != ''">`user_name`,</if>
+            <if test="phone != null and phone != ''">`phone`,</if>
+            <if test="email != null and email != ''">`email`,</if>
+            <if test="picture != null and picture != ''">`picture`,</if>
+            <if test="createTime != null">`create_time`,</if>
+            <if test="creatorId != null and creatorId != ''">`creator_id`,</if>
+            <if test="editTime != null">`edit_time`,</if>
+            <if test="editorId != null and editorId != ''">`editor_id`,</if>
+            <if test="dataStatus != null">`data_status`</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">#{id},</if>
+            <if test="account != null and account != ''">#{account},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="salt != null and salt != ''">#{salt},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="phone != null and phone != ''">#{phone},</if>
+            <if test="email != null and email != ''">#{email},</if>
+            <if test="picture != null and picture != ''">#{picture},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="creatorId != null and creatorId != ''">#{creatorId},</if>
+            <if test="editTime != null">#{editTime},</if>
+            <if test="editorId != null and editorId != ''">#{editorId},</if>
+            <if test="dataStatus != null">#{dataStatus}</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.hiynn.cms.entity.SysUserEntity">
+        update sys_user
+        <set>
+            <if test="account != null and account != '' ">`account` = #{account},</if>
+            <if test="password != null and password != '' ">`password` = #{password},</if>
+            <if test="salt != null and salt != '' ">`salt` = #{salt},</if>
+            <if test="userName != null and userName != '' ">`user_name` = #{userName},</if>
+            <if test="phone != null and phone != '' ">`phone` = #{phone},</if>
+            <if test="email != null and email != '' ">`email` = #{email},</if>
+            <if test="picture != null and picture != '' ">`picture` = #{picture},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="creatorId != null and creatorId != '' ">`creator_id` = #{creatorId},</if>
+            <if test="editTime != null">`edit_time` = #{editTime},</if>
+            <if test="editorId != null and editorId != '' ">`editor_id` = #{editorId},</if>
+            <if test="dataStatus != null">`data_status` = #{dataStatus},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="delete">
+        delete
+        from sys_user
+        where id = #{value}
+    </update>
+
+
+
+</mapper>

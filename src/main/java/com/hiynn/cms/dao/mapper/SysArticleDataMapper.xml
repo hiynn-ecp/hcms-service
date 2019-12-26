@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hiynn.cms.dao.SysArticleDataMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hiynn.cms.entity.SysArticleDataEntity" id="BaseResultMap">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="type" property="type"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="creator_id" property="creatorId"/>
+        <result column="edit_time" property="editTime"/>
+        <result column="editor_id" property="editorId"/>
+        <result column="data_status" property="dataStatus"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,type,`description`,create_time,creator_id,edit_time,editor_id,data_status    </sql>
+
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_article_data where id = #{value} and data_status = 1
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_article_data where data_status = 1
+    </select>
+
+    <select id="listByTypeOrTitle" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_article_data where data_status = 1
+        and type = #{type}
+        <if test="title!=null and title !=''">
+            and locate(#{title},title)>0
+        </if>
+        order by create_time desc
+    </select>
+
+    <select id="countTotal" resultType="int">
+        select count(*)
+        from sys_article_data
+        where data_status = 1
+    </select>
+
+    <insert id="insert" parameterType="com.hiynn.cms.entity.SysArticleDataEntity">
+        insert into sys_article_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">id ,</if>
+            <if test="title != null  and title != '' ">title ,</if>
+            <if test="type != null  ">type ,</if>
+            <if test="description != null  and description != '' ">`description` ,</if>
+            <if test="createTime != null  ">create_time ,</if>
+            <if test="creatorId != null  and creatorId != '' ">creator_id ,</if>
+            <if test="editTime != null  ">edit_time ,</if>
+            <if test="editorId != null  and editorId != '' ">editor_id ,</if>
+            <if test="dataStatus != null  ">data_status</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">#{id
+                   },
+            </if>
+            <if test="title != null  and title != '' ">#{title
+                   },
+            </if>
+            <if test="type != null  ">#{type
+                   },
+            </if>
+            <if test="description != null  and description != '' ">#{description
+                   },
+            </if>
+            <if test="createTime != null  ">#{createTime
+                   },
+            </if>
+            <if test="creatorId != null  and creatorId != '' ">#{creatorId
+                   },
+            </if>
+            <if test="editTime != null  ">#{editTime
+                   },
+            </if>
+            <if test="editorId != null  and editorId != '' ">#{editorId
+                   },
+            </if>
+            <if test="dataStatus != null  ">#{dataStatus
+                   }
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.hiynn.cms.entity.SysArticleDataEntity">
+        update sys_article_data
+        <set>
+            <if test="title != null  and title != ''  ">title =
+                #{title} ,
+            </if>
+            <if test="type != null  ">type =
+                #{type} ,
+            </if>
+            <if test="description != null  and description != ''  ">`description` =
+                #{description} ,
+            </if>
+            <if test="createTime != null  ">create_time =
+                #{createTime} ,
+            </if>
+            <if test="creatorId != null  and creatorId != ''  ">creator_id =
+                #{creatorId} ,
+            </if>
+            <if test="editTime != null  ">edit_time =
+                #{editTime} ,
+            </if>
+            <if test="editorId != null  and editorId != ''  ">editor_id =
+                #{editorId} ,
+            </if>
+            <if test="dataStatus != null  ">data_status =
+                #{dataStatus}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from sys_article_data
+        where id = #{value}
+    </delete>
+
+</mapper>

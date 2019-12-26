@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiynn.cms.dao.SysDataSourceEntityMapper">
+    <resultMap id="BaseResultMap" type="com.hiynn.cms.entity.SysDataSourceEntity">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="creator_id" jdbcType="VARCHAR" property="creatorId"/>
+        <result column="edit_time" jdbcType="TIMESTAMP" property="editTime"/>
+        <result column="editor_id" jdbcType="VARCHAR" property="editorId"/>
+        <result column="data_status" jdbcType="INTEGER" property="dataStatus"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, url, name, user_name, password, create_time, creator_id, edit_time, editor_id,
+        data_status
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_data_source
+        where id = #{id,jdbcType=VARCHAR}
+        and data_status=1
+    </select>
+
+    <select id="list" resultType="com.hiynn.cms.model.vo.DataSourceVO">
+        SELECT
+            ds.id `id`,
+            ds.`name` `name`,
+            ds.url,
+            ds.user_name userName,
+            ds. PASSWORD PASSWORD,
+            ds.create_time createTime,
+            dsf.source_name sourceName,
+            dsf.target_name targetName
+        FROM
+            sys_data_source ds
+        LEFT JOIN sys_data_source_files dsf ON ds.id = dsf.sys_data_source_id
+        WHERE
+            data_status = 1
+        ORDER BY
+	        ds.create_time ASC
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from sys_data_source
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+
+    <insert id="insertSelective" parameterType="com.hiynn.cms.entity.SysDataSourceEntity">
+        insert into sys_data_source
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="creatorId != null">
+                creator_id,
+            </if>
+            <if test="editTime != null">
+                edit_time,
+            </if>
+            <if test="editorId != null">
+                editor_id,
+            </if>
+            <if test="dataStatus != null">
+                data_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creatorId != null">
+                #{creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null">
+                #{editTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="editorId != null">
+                #{editorId,jdbcType=VARCHAR},
+            </if>
+            <if test="dataStatus != null">
+                #{dataStatus,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.hiynn.cms.entity.SysDataSourceEntity">
+        update sys_data_source
+        <set>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creatorId != null">
+                creator_id = #{creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null">
+                edit_time = #{editTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="editorId != null">
+                editor_id = #{editorId,jdbcType=VARCHAR},
+            </if>
+            <if test="dataStatus != null">
+                data_status = #{dataStatus,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+</mapper>

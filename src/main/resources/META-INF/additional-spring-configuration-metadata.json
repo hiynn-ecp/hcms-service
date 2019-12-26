@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "web.upload-path.files",
+      "type": "java.lang.String",
+      "description": "其他文件路径"
+    },
+    {
+      "name": "web.upload-path.img",
+      "type": "java.lang.String",
+      "description": "图片路径"
+    },
+    {
+      "name": "web.upload-path",
+      "type": "java.lang.String",
+      "description": "根路径"
+    }
+  ] }

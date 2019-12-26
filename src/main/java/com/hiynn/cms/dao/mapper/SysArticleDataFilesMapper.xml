@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hiynn.cms.dao.SysArticleDataFilesMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hiynn.cms.entity.SysArticleDataFilesEntity" id="BaseResultMap">
+        <result column="id" property="id"/>
+        <result column="sys_article_data_id" property="sysArticleDataId"/>
+        <result column="source_name" property="sourceName"/>
+        <result column="target_name" property="targetName"/>
+        <result column="preview_name" property="previewName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="creator_id" property="creatorId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sys_article_data_id,source_name,preview_name,target_name,create_time,creator_id    </sql>
+
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_article_data_files where id = #{value}
+    </select>
+
+
+    <select id="listByArticleDataId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_article_data_files where sys_article_data_id = #{sysArticleDataId}
+        order by create_time
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_article_data_files
+    </select>
+
+    <select id="countTotal" resultType="int">
+        select count(*)
+        from sys_article_data_files
+    </select>
+
+    <insert id="insert" parameterType="com.hiynn.cms.entity.SysArticleDataFilesEntity">
+        insert into sys_article_data_files
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">id ,</if>
+            <if test="sysArticleDataId != null  and sysArticleDataId != '' ">sys_article_data_id ,</if>
+            <if test="sourceName != null  and sourceName != '' ">source_name ,</if>
+            <if test="targetName != null  and targetName != '' ">target_name ,</if>
+            <if test="previewName != null  and previewName != '' ">preview_name ,</if>
+            <if test="createTime != null  ">create_time ,</if>
+            <if test="creatorId != null  and creatorId != '' ">creator_id</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">#{id},
+            </if>
+            <if test="sysArticleDataId != null  and sysArticleDataId != '' ">#{sysArticleDataId},
+            </if>
+            <if test="sourceName != null  and sourceName != '' ">#{sourceName},
+            </if>
+            <if test="targetName != null  and targetName != '' ">#{targetName},
+            </if>
+            <if test="previewName != null  and previewName != '' ">#{previewName},</if>
+            <if test="createTime != null  ">#{createTime
+                   },
+            </if>
+            <if test="creatorId != null  and creatorId != '' ">#{creatorId
+                   }
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.hiynn.cms.entity.SysArticleDataFilesEntity">
+        update sys_article_data_files
+        <set>
+            <if test="sysArticleDataId != null  and sysArticleDataId != ''  ">sys_article_data_id =
+                #{sysArticleDataId} ,
+            </if>
+            <if test="sourceName != null  and sourceName != ''  ">source_name =
+                #{sourceName} ,
+            </if>
+            <if test="targetName != null  and targetName != ''  ">target_name =
+                #{targetName} ,
+            </if>
+            <if test="createTime != null  ">create_time =
+                #{createTime} ,
+            </if>
+            <if test="creatorId != null  and creatorId != ''  ">creator_id =
+                #{creatorId}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from sys_article_data_files
+        where id = #{value}
+    </delete>
+
+</mapper>

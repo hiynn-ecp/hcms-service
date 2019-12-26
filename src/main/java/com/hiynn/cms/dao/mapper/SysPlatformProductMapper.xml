@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hiynn.cms.dao.SysPlatformProductMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hiynn.cms.entity.SysPlatformProductEntity" id="BaseResultMap">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,content,data_status,create_time,creator_id,edit_time,editor_id    </sql>
+
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_platform_product where id = #{value} and data_status = 1
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_platform_product where data_status = 1
+    </select>
+
+    <select id="countTotal" resultType="int">
+        select count(*)
+        from sys_platform_product
+        where data_status = 1
+    </select>
+
+    <insert id="insert" parameterType="com.hiynn.cms.entity.SysPlatformProductEntity">
+        insert into sys_platform_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">id ,</if>
+            <if test="title != null  and title != '' ">title ,</if>
+            <if test="content != null  and content != '' ">content ,</if>
+            <if test="dataStatus != null  ">data_status ,</if>
+            <if test="createTime != null  ">create_time ,</if>
+            <if test="creatorId != null  and creatorId != '' ">creator_id ,</if>
+            <if test="editTime != null  ">edit_time ,</if>
+            <if test="editorId != null  and editorId != '' ">editor_id</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">#{id
+                   },
+            </if>
+            <if test="title != null  and title != '' ">#{title
+                   },
+            </if>
+            <if test="content != null  and content != '' ">#{content
+                   },
+            </if>
+            <if test="dataStatus != null  ">#{dataStatus
+                   },
+            </if>
+            <if test="createTime != null  ">#{createTime
+                   },
+            </if>
+            <if test="creatorId != null  and creatorId != '' ">#{creatorId
+                   },
+            </if>
+            <if test="editTime != null  ">#{editTime
+                   },
+            </if>
+            <if test="editorId != null  and editorId != '' ">#{editorId
+                   }
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.hiynn.cms.entity.SysPlatformProductEntity">
+        update sys_platform_product
+        <set>
+            <if test="title != null  and title != ''  ">title =
+                #{title} ,
+            </if>
+            <if test="content != null  and content != ''  ">content =
+                #{content} ,
+            </if>
+            <if test="dataStatus != null  ">data_status =
+                #{dataStatus} ,
+            </if>
+            <if test="createTime != null  ">create_time =
+                #{createTime} ,
+            </if>
+            <if test="creatorId != null  and creatorId != ''  ">creator_id =
+                #{creatorId} ,
+            </if>
+            <if test="editTime != null  ">edit_time =
+                #{editTime} ,
+            </if>
+            <if test="editorId != null  and editorId != ''  ">editor_id =
+                #{editorId}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from sys_platform_product
+        where id = #{value}
+    </delete>
+
+</mapper>

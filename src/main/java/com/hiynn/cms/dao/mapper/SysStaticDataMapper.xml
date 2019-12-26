@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiynn.cms.dao.SysStaticDataMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hiynn.cms.entity.SysStaticDataEntity" id="BaseResultMap">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="path" property="path"/>
+        <result column="create_time" property="createTime"/>
+        <result column="creator_id" property="creatorId"/>
+        <result column="edit_time" property="editTime"/>
+        <result column="editor_id" property="editorId"/>
+        <result column="data_status" property="dataStatus"/>
+    </resultMap>
+
+    <resultMap type="com.hiynn.cms.model.vo.StaticDataVO" id="BaseVOMap">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="path" property="path"/>
+        <result column="create_time" property="createTime"/>
+        <result column="creator_id" property="creatorId"/>
+        <result column="edit_time" property="editTime"/>
+        <result column="editor_id" property="editorId"/>
+        <result column="data_status" property="dataStatus"/>
+        <result column="creator" property="creator"/>
+        <result column="editor" property="editor"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      id,
+      name,
+      path,
+      create_time,
+      creator_id,
+      edit_time,
+      editor_id,
+      data_status
+    </sql>
+
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_static_data where id = #{value} and data_status=1
+    </select>
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_static_data where data_status=1
+    </select>
+
+    <select id="listPage" resultMap="BaseVOMap">
+        SELECT
+            sd.*, (
+                SELECT
+                    user_name
+                FROM
+                    sys_user
+                WHERE
+                    id = sd.creator_id
+            ) creator,
+            (
+                SELECT
+                    user_name
+                FROM
+                    sys_user
+                WHERE
+                    id = sd.editor_id
+            ) editor
+        FROM
+            sys_static_data sd
+        WHERE
+            sd.data_status = 1
+    </select>
+
+    <select id="countTotal" resultType="int">
+        select count(*)
+        from sys_static_data where data_status=1
+    </select>
+
+    <insert id="insert" parameterType="com.hiynn.cms.entity.SysStaticDataEntity">
+        insert into sys_static_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">
+                id,
+            </if>
+            <if test="name != null  and name != '' ">
+                name,
+            </if>
+            <if test="path != null  and path != '' ">
+                path,
+            </if>
+            <if test="createTime != null  ">
+                create_time,
+            </if>
+            <if test="creatorId != null  and creatorId != '' ">
+                creator_id,
+            </if>
+            <if test="editTime != null  ">
+                edit_time,
+            </if>
+            <if test="editorId != null  and editorId != '' ">
+                editor_id,
+            </if>
+            <if test="dataStatus != null  ">
+                data_status
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">
+                #{id},
+            </if>
+            <if test="name != null  and name != '' ">
+                #{name},
+            </if>
+            <if test="path != null  and path != '' ">
+                #{path},
+            </if>
+            <if test="createTime != null  ">
+                #{createTime},
+            </if>
+            <if test="creatorId != null  and creatorId != '' ">
+                #{creatorId},
+            </if>
+            <if test="editTime != null  ">
+                #{editTime},
+            </if>
+            <if test="editorId != null  and editorId != '' ">
+                #{editorId},
+            </if>
+            <if test="dataStatus != null  ">
+                #{dataStatus}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.hiynn.cms.entity.SysStaticDataEntity">
+        update sys_static_data
+        <set>
+            <if test="name != null  and name != ''  ">
+                name = #{name},
+            </if>
+            <if test="path != null  and path != ''  ">
+                path = #{path},
+            </if>
+            <if test="createTime != null  ">
+                create_time = #{createTime},
+            </if>
+            <if test="creatorId != null  and creatorId != ''  ">
+                creator_id = #{creatorId},
+            </if>
+            <if test="editTime != null  ">
+                edit_time = #{editTime},
+            </if>
+            <if test="editorId != null  and editorId != ''  ">
+                editor_id = #{editorId},
+            </if>
+            <if test="dataStatus != null  ">
+                data_status = #{dataStatus}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from sys_static_data where id = #{value}
+    </delete>
+
+</mapper>

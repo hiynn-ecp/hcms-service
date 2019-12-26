@@ -1,0 +1,109 @@
+package ${package}.service.impl;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import ${package}.dao.${className}Mapper;
+import ${package}.entity.${className}Entity;
+import ${package}.service.${className}Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * 描述: ${comments}
+ * @author ${author}
+ * @date ${date}
+ */
+@Service
+@Slf4j
+public class ${className}ServiceImpl implements ${className}Service {
+
+
+    private final ${className}Mapper ${classname}Mapper;
+
+    @Autowired
+    public ${className}ServiceImpl(${className}Mapper ${classname}Mapper) {
+        this.${classname}Mapper = ${classname}Mapper;
+    }
+
+    /**
+     * 描述: ID查询
+     * @author ${author}
+     * @date ${date}
+     * @param ${pk.attrname}
+     * @return ${className}Entity
+     */
+    @Override
+    public ${className}Entity select(${pk.attrType} ${pk.attrname}) {
+        return ${classname}Mapper.select(${pk.attrname});
+    }
+
+    /**
+     * 描述: 分页查询
+     * @author ${author}
+     * @date ${date}
+     * @param page
+     * @param pageSize
+     * @return PageInfo
+     */
+    @Override
+    public PageInfo<?> listPage(String page, String pageSize) {
+        log.info("{}{}{}", "分页查询：",page,pageSize);
+        PageHelper.startPage(Integer.valueOf(page), Integer.valueOf(pageSize));
+        List<${className}Entity> selectByPage = ${classname}Mapper.list();
+        PageInfo<${className}Entity> pageInfo = new PageInfo<${className}Entity>(selectByPage);
+        log.info("{}{}", "分页查询返回==>", pageInfo);
+        return pageInfo;
+    }
+
+    /**
+     * 描述: 查询总数
+     * @author ${author}
+     * @date ${date}
+     * @param
+     * @return int
+     */
+    @Override
+    public int countTotal() {
+        return ${classname}Mapper.countTotal();
+    }
+
+    /**
+     * 描述: 保存
+     * @author ${author}
+     * @date ${date}
+     * @param ${classname}
+     * @return int
+     */
+    @Override
+    public int insert(${className}Entity ${classname}) {
+        return ${classname}Mapper.insert(${classname});
+    }
+
+    /**
+     * 描述: 更新
+     * @author ${author}
+     * @date ${date}
+     * @param ${classname}
+     * @return int
+     */
+    @Override
+    public int update(${className}Entity ${classname}) {
+        return ${classname}Mapper.update(${classname});
+    }
+
+    /**
+     * 描述: ID删除
+     * @author ${author}
+     * @date ${date}
+     * @param ${pk.attrname}
+     * @return int
+     */
+    @Override
+    public int delete(${pk.attrType} ${pk.attrname}) {
+        return ${classname}Mapper.delete(${pk.attrname});
+    }
+	
+}

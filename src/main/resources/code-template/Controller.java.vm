@@ -1,0 +1,114 @@
+package ${package}.controller;
+
+import ${package}.entity.${className}Entity;
+import ${package}.service.${className}Service;
+import com.hiynn.component.common.core.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * 描述: ${comments}
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+@Api(tags = "${comments}" )
+@RestController
+@RequestMapping("${pathName}" )
+@Slf4j
+public class ${className}Controller {
+
+    private final ${className}Service ${classname}Service;
+
+    @Autowired
+    public ${className}Controller(${className}Service ${classname}Service) {
+        this.${classname}Service = ${classname}Service;
+    }
+
+
+    /**
+     * 描述: 分页查询列表
+     * @author ${author}
+     * @date ${date}
+     * @param page  页码
+     * @param pageSize 数量
+     * @return com.hiynn.component.common.core.Result
+     */
+    @GetMapping(value = "list/page")
+    @ApiOperation(value = "分页查询列表", notes = "分页查询列表")
+    public Result selectByPage(
+            @ApiParam(name = "page", value = "页码", required = false)
+            @RequestParam(defaultValue = "0", required = false) String page,
+            @ApiParam(name = "pageSize", value = "数量", required = false)
+            @RequestParam(defaultValue = "0", required = false) String pageSize) {
+        return Result.success().setData(${classname}Service.listPage(page, pageSize));
+    }
+
+    /**
+     * 描述: ID查询
+     * @author ${author}
+     * @date ${date}
+     * @param ${pk.attrname}
+     * @return com.hiynn.component.common.core.Result
+     */
+    @GetMapping("{${pk.attrname}}")
+    @ApiOperation(value = "ID查询", notes = "ID查询")
+    public Result selectById(
+            @ApiParam(name = "${pk.attrname}", value = "主键ID", required = true)
+            @PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
+        return Result.success().setData(${classname}Service.select(${pk.attrname}));
+    }
+
+    /**
+     * 描述: 保存
+     * @author ${author}
+     * @date ${date}
+     * @param ${classname}
+     * @return com.hiynn.component.common.core.Result
+     */
+    @PostMapping
+    @ApiOperation(value = "保存", notes = "保存" )
+    public Result insert(@RequestBody() ${className}Entity ${classname}) {
+            ${classname}Service.insert(${classname});
+        return Result.success();
+    }
+
+    /**
+     * 描述: 修改
+     * @author ${author}
+     * @date ${date}
+     * @param ${classname}
+     * @return com.hiynn.component.common.core.Result
+     */
+    @PutMapping
+    @ApiOperation(value = "更新", notes = "更新" )
+    public Result update(@RequestBody() ${className}Entity ${classname}) {
+            ${classname}Service.update(${classname});
+        return Result.success();
+    }
+
+
+    /**
+     * 描述: 删除
+     * @author ${author}
+     * @date ${date}
+     * @param ${pk.attrname}
+     * @return com.hiynn.component.common.core.Result
+     */
+    @DeleteMapping("{${pk.attrname}}")
+    @ApiOperation(value = "删除", notes = "删除" )
+    public Result delete(
+            @ApiParam(name = "${pk.attrname}", value = "主键ID", required = true)
+            @PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
+        int cnt = ${classname}Service.delete(${pk.attrname});
+        if (cnt == 0) {
+            Result.errorParam();
+        }
+        return Result.success();
+    }
+
+}

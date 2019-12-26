@@ -1,0 +1,79 @@
+server:
+  port: 8930
+  servlet:
+    context-path: /${spring.application.name}
+  tomcat:
+    max-http-post-size: -1
+
+spring:
+  application:
+    name: hcms
+  jmx:
+    default-domain: ${spring.application.name}
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      # 文件单个大50MB
+      max-file-size: 50MB
+      # 一次请求文件总大小
+      max-request-size: 100MB
+      # 文件上传临界值，超过这个临界值，保存到location
+      file-size-threshold: 1Mb
+      # 达到临界值后 临时保存的目录 减少系统内存开销
+      location: ${java.io.tmpdir}
+  mvc:
+    # 静态转发规则 默认就是/** 可以不配置 匹配 静态映射resources.static-locations
+    static-path-pattern: /**
+  resources:
+    # 静态映射
+    static-locations:
+      - file:${web.static-location.home}
+      - classpath:/META-INF/resources/
+      - classpath:/resources/
+      - classpath:/static/
+      - classpath:/public/
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  # 缓存配置 可以不配置 默认获取classpath:ehcache.xml
+  # Ehcache name属性 即 命名空间 在jvm中不可重复
+  # 其他框架可注入spring的缓存管理器 （也可以配置独立的缓存管理器 但配置文件不可使用同一个）
+  cache:
+    ehcache:
+      config: ehcache.xml
+  # 数据源不可变配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    druid:
+      filter:
+        stat:
+          enabled: false
+
+#静态资源上传路径
+web:
+  static-location:
+    home: /home/web/static/hcms/
+    img: ${web.static-location.home}img/
+    files: ${web.static-location.home}files/
+    jar: ${web.static-location.home}jar/
+    sql: ${web.static-location.home}sql/
+    backups: ${web.static-location.home}backups/
+
+# mybatis mapperXml 扫描路径
+mybatis:
+  mapper-locations: classpath*:com/hiynn/**/*.xml
+  # 自动驼峰转换
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+log:
+  name: ${spring.application.name}
+  path: /logs/hiynn/
+
+#分页插件配置,请不要配置无关紧要的东西.
+pagehelper:
+  # 页码0 查询所有
+  pageSizeZero: true
+

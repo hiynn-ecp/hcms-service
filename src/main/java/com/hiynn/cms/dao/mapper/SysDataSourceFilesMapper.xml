@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiynn.cms.dao.SysDataSourceFilesMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hiynn.cms.entity.SysDataSourceFilesEntity" id="BaseResultMap">
+        <result column="id" property="id"/>
+        <result column="sys_data_source_id" property="sysDataSourceId"/>
+        <result column="source_name" property="sourceName"/>
+        <result column="target_name" property="targetName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="creator_id" property="creatorId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      id,
+      sys_data_source_id,
+      source_name,
+      target_name,
+      create_time,
+      creator_id
+    </sql>
+
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_data_source_files where id = #{value}
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_data_source_files
+    </select>
+
+    <select id="countTotal" resultType="int">
+        select count(*)
+        from sys_data_source_files
+    </select>
+
+    <insert id="insert" parameterType="com.hiynn.cms.entity.SysDataSourceFilesEntity">
+        insert into sys_data_source_files
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">
+                id,
+            </if>
+            <if test="sysDataSourceId != null  and sysDataSourceId != '' ">
+                sys_data_source_id,
+            </if>
+            <if test="sourceName != null  and sourceName != '' ">
+                source_name,
+            </if>
+            <if test="targetName != null  and targetName != '' ">
+                target_name,
+            </if>
+            <if test="createTime != null  ">
+                create_time,
+            </if>
+            <if test="creatorId != null  and creatorId != '' ">
+                creator_id
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != '' ">
+                #{id},
+            </if>
+            <if test="sysDataSourceId != null  and sysDataSourceId != '' ">
+                #{sysDataSourceId},
+            </if>
+            <if test="sourceName != null  and sourceName != '' ">
+                #{sourceName},
+            </if>
+            <if test="targetName != null  and targetName != '' ">
+                #{targetName},
+            </if>
+            <if test="createTime != null  ">
+                #{createTime},
+            </if>
+            <if test="creatorId != null  and creatorId != '' ">
+                #{creatorId}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.hiynn.cms.entity.SysDataSourceFilesEntity">
+        update sys_data_source_files
+        <set>
+            <if test="sysDataSourceId != null  and sysDataSourceId != ''  ">
+                sys_data_source_id = #{sysDataSourceId},
+            </if>
+            <if test="sourceName != null  and sourceName != ''  ">
+                source_name = #{sourceName},
+            </if>
+            <if test="targetName != null  and targetName != ''  ">
+                target_name = #{targetName},
+            </if>
+            <if test="createTime != null  ">
+                create_time = #{createTime},
+            </if>
+            <if test="creatorId != null  and creatorId != ''  ">
+                creator_id = #{creatorId}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from sys_data_source_files where id = #{value}
+    </delete>
+
+    <select id="selectFilesByDataSourceId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_data_source_files
+        where sys_data_source_id = #{dataSourceId}
+    </select>
+
+</mapper>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hiynn.cms.dao.SysRoleMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hiynn.cms.entity.SysRoleEntity" id="BaseResultMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="editTime" column="edit_time"/>
+        <result property="editorId" column="editor_id"/>
+        <result property="dataStatus" column="data_status"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,create_time,creator_id,edit_time,editor_id,data_status    </sql>
+
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role where id = #{value} and  data_status = 1
+    </select>
+
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role where data_status = 1
+    </select>
+
+    <select id="countTotal" resultType="int">
+        select count(*)
+        from sys_role where data_status = 1
+    </select>
+
+    <select id="listByUserId" resultType="com.hiynn.cms.entity.SysRoleEntity">
+        select t2.id,
+               t2.name,
+               t2.create_time,
+               t2.creator_id,
+               t2.edit_time,
+               t2.editor_id,
+               t2.data_status
+        from sys_user_role_r t1
+                 left join sys_role t2 on t1.role_id = t2.id
+        where t1.user_id = #{userId} and t1.data_status = 1 and t2.data_status=1
+    </select>
+
+
+    <insert id="insert" parameterType="com.hiynn.cms.entity.SysRoleEntity">
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">`id`,</if>
+            <if test="name != null and name != ''">`name`,</if>
+            <if test="createTime != null">`create_time`,</if>
+            <if test="creatorId != null and creatorId != ''">`creator_id`,</if>
+            <if test="editTime != null">`edit_time`,</if>
+            <if test="editorId != null and editorId != ''">`editor_id`,</if>
+            <if test="dataStatus != null">`data_status`</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id!='' ">#{id},</if>
+            <if test="name != null and name!='' ">#{name},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="creatorId != null and creatorId!='' ">#{creatorId},</if>
+            <if test="editTime != null">#{editTime},</if>
+            <if test="editorId != null and editorId!='' ">#{editorId},</if>
+            <if test="dataStatus != null">#{dataStatus}</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteUserRole">
+        delete
+        from sys_user_role_r
+        where user_id = #{userId}
+    </delete>
+    <insert id="insertUserRole">
+        insert into sys_user_role_r(id, user_id, role_id, create_time)
+        values (#{id}, #{userId}, #{roleId}, #{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.hiynn.cms.entity.SysRoleEntity">
+        update sys_role
+        <set>
+            <if test="name != null and name != '' ">`name` = #{name},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="creatorId != null and creatorId != '' ">`creator_id` = #{creatorId},</if>
+            <if test="editTime != null">`edit_time` = #{editTime},</if>
+            <if test="editorId != null and editorId != '' ">`editor_id` = #{editorId},</if>
+            <if test="dataStatus != null ">`data_status` = #{dataStatus}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from sys_role
+        where id = #{value}
+    </delete>
+
+
+
+</mapper>
