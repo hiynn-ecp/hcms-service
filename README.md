@@ -53,13 +53,13 @@ admin | 1111 | 超级管理员
 ### 技术选型
 
 #### 后端
-- [JDK 1.8.*](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
+- [JDK 1.8](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - [Spring Boot 2.0.6](http://spring.io/projects/spring-boot/)
 - [Mybatis 1.3.2](https://mybatis.org/mybatis-3/)
 - [MySQL 5.7.x](https://dev.mysql.com/downloads/mysql/5.7.html#downloads),[Hikari](https://brettwooldridge.github.io/HikariCP/),[Redis](https://redis.io/)
 - [Shiro 1.4.0](http://shiro.apache.org/)
 - [Maven 4.0](https://maven.apache.org/)
-- [Redis 4.*](https://redis.io/)
+- [Redis 4.0](https://redis.io/)
 - [Alibaba Druid 1.1.20](https://github.com/alibaba/druid)
 - [Swagger 2.7.0](http://editor.swagger.io/)
 - [jjwt 0.9.0](https://github.com/jwtk/jjwt)
