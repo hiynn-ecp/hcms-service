@@ -73,11 +73,17 @@ admin | 1111 | 超级管理员
 
 2. 执行数据库脚本。数据库脚本在sql目录下。
 
-3. 在idea中使用git检出，需要一定时间，请耐心等待。
+3. 安装office工具<br>
+   linux下载地址：https://www.libreoffice.org/donate/dl/win-x86_64/6.3.4/zh-CN/LibreOffice_6.3.4_Win_x64.msi <br>
+   windows下载地址：https://www.libreoffice.org/donate/dl/win-x86_64/6.3.4/zh-CN/LibreOffice_6.3.4_Win_x64.msi
 
-4. 运行程序。运行MainApplicion.java
+4. 在idea中使用git检出，需要一定时间，请耐心等待。
 
-5. 访问系统。后台地址：http://localhost:8930/hcms/swagger-ui.html，显示出swagger页面，则系统启动正常。
+5. 配置application-dev.yml中,mysql数据库（链接地址，用户名和密码）、redis（链接地址，用户名和密码）和jodconverter地址
+
+6. 运行程序。运行MainApplicion.java
+
+7. 访问系统。后台地址：http://localhost:8930/hcms/swagger-ui.html，显示出swagger页面，则系统启动正常。
 
 ### 浏览器兼容
 |[<img src="https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png" alt="Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |[<img src="https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Opera
