@@ -1,10 +1,12 @@
 package com.hiynn.cms;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 程序入口
@@ -20,8 +22,10 @@ import org.springframework.cache.annotation.EnableCaching;
  * @author 张朋
  * @date 2019/10/21 15:27
  */
+
 @SpringBootApplication
 @EnableCaching
+@ComponentScan("com.hiynn")
 public class StartApp extends SpringBootServletInitializer {
 
     @Override

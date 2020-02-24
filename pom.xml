@@ -4,10 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.hiynn</groupId>
-        <artifactId>parent-framework</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.6.RELEASE</version>
     </parent>
 
     <artifactId>hcms</artifactId>
@@ -16,36 +15,47 @@
     <name>hcms</name>
 
     <dependencies>
-        <!--hiynn-common 基础包-->
+        <!--归属地 获取 支持 IP库 ip2region.db:  https://gitee.com/lionsoul/ip2region/tree/master/data-->
         <dependency>
-            <groupId>com.hiynn</groupId>
-            <artifactId>common</artifactId>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+            <version>1.7.2</version>
         </dependency>
+
+        <!--web-->
         <dependency>
-            <artifactId>requestAddressUtils</artifactId>
-            <groupId>com.hiynn</groupId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <optional>true</optional>
+            <version>3.1.0</version>
         </dependency>
+
+
         <!--mybatis-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>1.3.2</version>
         </dependency>
+
         <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
         <!--spring boot 核心-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
         <!--spring boot web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-
         </dependency>
+
         <!--spring boot APO-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -58,6 +68,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
         <!--spring boot test-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -65,35 +76,46 @@
             <optional>true</optional>
             <scope>test</scope>
         </dependency>
+
         <!--mysql驱动-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+
         <!--druid-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.1.20</version>
         </dependency>
+
         <!--分页-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.10</version>
         </dependency>
+
         <!--swagger-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
+            <version>2.7.0</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.7.0</version>
         </dependency>
+
         <!--json-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
+            <version>1.2.58</version>
         </dependency>
+
         <!--apache.commons-->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -106,27 +128,32 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
+            <version>1.10</version>
         </dependency>
 
         <!--jwt工具-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
         </dependency>
 
         <!-- shiro -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
+            <version>1.4.0</version>
         </dependency>
         <!-- shiro ehcache -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-ehcache</artifactId>
+            <version>1.4.0</version>
         </dependency>
         <!--开启 cache 缓存-->
         <dependency>
@@ -143,34 +170,64 @@
         <dependency>
             <groupId>org.jodconverter</groupId>
             <artifactId>jodconverter-spring-boot-starter</artifactId>
+            <version>4.2.2</version>
         </dependency>
         <dependency>
             <groupId>org.jodconverter</groupId>
             <artifactId>jodconverter-core</artifactId>
+            <version>4.2.2</version>
         </dependency>
         <dependency>
             <groupId>org.jodconverter</groupId>
             <artifactId>jodconverter-local</artifactId>
+            <version>4.2.2</version>
         </dependency>
         <dependency>
             <groupId>org.libreoffice</groupId>
             <artifactId>ridl</artifactId>
+            <version>5.4.2</version>
         </dependency>
         <!--pdf转换 结束需要配合系统插件-->
     </dependencies>
 
     <build>
+
         <finalName>${project.name}</finalName>
+
         <plugins>
-            <!--<plugin>-->
-            <!--<groupId>org.apache.maven.plugins</groupId>-->
-            <!--<artifactId>maven-war-plugin</artifactId>-->
-            <!--</plugin>-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>xlsx</nonFilteredFileExtension>
+                        <!--排除ip地址库二进制文件的转码-->
+                        <nonFilteredFileExtension>db</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>

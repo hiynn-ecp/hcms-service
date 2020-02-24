@@ -1,8 +1,6 @@
 package com.hiynn.cms.common.aop.syslog;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.hiynn.cms.common.util.ShiroUtils;
 import com.hiynn.cms.entity.SysLogEntity;
 import com.hiynn.cms.entity.SysUserEntity;
@@ -28,7 +26,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
